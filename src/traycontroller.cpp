@@ -17,13 +17,29 @@
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include "mainwindow.h"
+#include "traycontroller.h"
+#include <QIcon>
 
 namespace rn {
 
-MainWindow::MainWindow()
+TrayController::TrayController(QApplication *app, MainWindow *mainWindow) 
+    : app(app), mainWindow(mainWindow)
 {
-    setupUi(this);
+    //Setup context menu
+    menu = new QMenu();
+    menu->addAction("Show", mainWindow, &MainWindow::show);
+    menu->addAction("Exit", app, &QApplication::quit);
+
+    //Setup icon
+    icon.setIcon(QIcon(":icon.png"));
+    icon.show();
+    icon.showMessage("Running", "The program is now running");
+    icon.setContextMenu(menu);
+}
+
+TrayController::~TrayController()
+{
+    delete menu;
 }
 
 }

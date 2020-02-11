@@ -17,13 +17,32 @@
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+#ifndef TRAY_H
+#define TRAY_H
+
 #include "mainwindow.h"
+#include <QApplication>
+#include <QMenu>
+#include <QSystemTrayIcon>
 
 namespace rn {
 
-MainWindow::MainWindow()
+class TrayController : public QObject
 {
-    setupUi(this);
-}
+Q_OBJECT
+
+public:
+    explicit TrayController(QApplication *app, MainWindow *mainWindow);
+    virtual ~TrayController();
+
+private:
+    QApplication *app;
+    MainWindow *mainWindow;
+    QMenu *menu;
+    QSystemTrayIcon icon;
+
+};
 
 }
+
+#endif

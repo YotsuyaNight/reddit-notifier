@@ -19,12 +19,16 @@
 
 #include <QApplication>
 #include "mainwindow.h"
+#include "traycontroller.h"
+
+using namespace rn;
 
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
-
     rn::MainWindow mw;
+    TrayController tray(&app, &mw);
+    
     mw.show();
 
     return app.exec();

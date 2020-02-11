@@ -19,8 +19,10 @@ set(CMAKE_AUTOUIC ON)
 # Target stuff
 set(CMAKE_INSTALL_RPATH .)
 set(SOURCES
+        resources/resources.qrc
         src/mainwindow.ui
         src/mainwindow.cpp
+        src/traycontroller.cpp
 )
 include_directories(src)
 add_executable(app main.cpp ${SOURCES})
