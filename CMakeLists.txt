@@ -19,10 +19,14 @@ set(CMAKE_AUTOUIC ON)
 # Target stuff
 set(CMAKE_INSTALL_RPATH .)
 set(SOURCES
-        resources/resources.qrc
+        src/post.cpp
+        src/redditquery.cpp
+
         ui/mainwindow.ui
         ui/mainwindow.cpp
         ui/traycontroller.cpp
+        
+        resources/resources.qrc
 )
 include_directories(src ui)
 add_executable(app main.cpp ${SOURCES})

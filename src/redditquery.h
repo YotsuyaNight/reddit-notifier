@@ -17,20 +17,36 @@
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include <QApplication>
-#include "mainwindow.h"
-#include "traycontroller.h"
-#include "redditquery.h"
+#ifndef REDDITQUERY_H
+#define REDDITQUERY_H
 
-using namespace rn;
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QString>
 
-int main(int argc, char **argv)
+namespace rn {
+
+class RedditQuery : public QObject
 {
-    QApplication app(argc, argv);
-    rn::MainWindow mw;
-    TrayController tray(&app, &mw);
-    
-    mw.show();
+    Q_OBJECT
 
-    return app.exec();
+public:
+    RedditQuery(const QString &subreddit, const QString &sort, const QString &before = "");
+    void fire();
+
+private slots:
+    void replyFinished();
+    void replyError(QNetworkReply::NetworkError code);
+
+private:
+    static QNetworkAccessManager nam;
+    QString subreddit;
+    QString sort;
+    QString before;
+    QNetworkReply *reply;
+
+};
+
 }
+
+#endif

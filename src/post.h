@@ -17,20 +17,28 @@
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include <QApplication>
-#include "mainwindow.h"
-#include "traycontroller.h"
-#include "redditquery.h"
+#ifndef POST_H
+#define POST_H
 
-using namespace rn;
+#include <QString>
+#include <QUrl>
 
-int main(int argc, char **argv)
+namespace rn {
+
+class Post
 {
-    QApplication app(argc, argv);
-    rn::MainWindow mw;
-    TrayController tray(&app, &mw);
-    
-    mw.show();
+public:
+    Post() = default;
 
-    return app.exec();
+private:
+    QString title;
+    QString author;
+    QString selfText;
+    QUrl postLink;
+    QUrl commentsLink;
+
+};
+
 }
+
+#endif
