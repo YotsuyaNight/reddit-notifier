@@ -11,7 +11,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 # Qt5 Stuff
-find_package(Qt5 COMPONENTS Widgets)
+find_package(Qt5 REQUIRED COMPONENTS Widgets Network)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
@@ -20,10 +20,10 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_INSTALL_RPATH .)
 set(SOURCES
         resources/resources.qrc
-        src/mainwindow.ui
-        src/mainwindow.cpp
-        src/traycontroller.cpp
+        ui/mainwindow.ui
+        ui/mainwindow.cpp
+        ui/traycontroller.cpp
 )
-include_directories(src)
+include_directories(src ui)
 add_executable(app main.cpp ${SOURCES})
-target_link_libraries(app Qt5::Widgets)
+target_link_libraries(app Qt5::Widgets Qt5::Network)
