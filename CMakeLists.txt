@@ -11,7 +11,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 # Qt5 Stuff
-find_package(Qt5 REQUIRED COMPONENTS Widgets Network)
+find_package(Qt5 REQUIRED Widgets Network Test)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
@@ -21,15 +21,17 @@ set(CMAKE_INSTALL_RPATH .)
 set(SOURCES
         src/post.cpp
         src/redditquery.cpp
-
+)
+set(UISOURCES
         ui/mainwindow.ui
         ui/mainwindow.cpp
         ui/traycontroller.cpp
-        
         resources/resources.qrc
 )
 include_directories(src ui)
-add_executable(app main.cpp ${SOURCES})
-target_link_libraries(app Qt5::Widgets Qt5::Network)
+add_library(core STATIC ${SOURCES})
+target_link_libraries(core Qt5::Widgets Qt5::Network)
+add_executable(app main.cpp ${UISOURCES})
+target_link_libraries(app core)
 
 add_subdirectory(tests)

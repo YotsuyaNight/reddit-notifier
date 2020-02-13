@@ -28,7 +28,6 @@ QNetworkAccessManager RedditQuery::nam;
 RedditQuery::RedditQuery(const QString &subreddit, const QString &sort, const QString &before)
     : subreddit(subreddit), sort(sort), before(before)
 {
-    qDebug() << &nam;
 }
 
 void RedditQuery::fire()
@@ -40,17 +39,29 @@ void RedditQuery::fire()
             this, &RedditQuery::replyError);
 }
 
+int RedditQuery::getStatus()
+{
+    return status;
+}
+
+QByteArray RedditQuery::getData()
+{
+    return data;
+}
+
 void RedditQuery::replyFinished()
 {
     data = reply->readAll();
     status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     reply->deleteLater();
+    emit done();
 }
 
 void RedditQuery::replyError(QNetworkReply::NetworkError code)
 {
     status = code;
     reply->deleteLater();
+    emit done();
 }
 
 }

@@ -40,6 +40,9 @@ private slots:
     void replyFinished();
     void replyError(QNetworkReply::NetworkError code);
 
+signals:
+    void done();
+
 private:
     static QNetworkAccessManager nam;
     int status;

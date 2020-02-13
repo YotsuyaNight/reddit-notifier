@@ -18,8 +18,17 @@
 */
 
 #include <catch2/catch.hpp>
+#include "redditquery.h"
+#include <QSignalSpy>
 
-TEST_CASE("")
+using namespace rn;
+
+TEST_CASE("RedditQuery sample request")
 {
-    REQUIRE(1 == 1);
+    RedditQuery q("manga", "new");
+    QSignalSpy spy(&q, &RedditQuery::done);
+    q.fire();
+    spy.wait(10000);
+    REQUIRE(q.getStatus() == 200);
+    REQUIRE(q.getData().size() > 0);
 }

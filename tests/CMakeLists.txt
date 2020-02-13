@@ -3,9 +3,9 @@ project(rn_tests)
 
 # Testing
 set(TESTSOURCES
-    redditquerytest.cpp
+    redditquery.cpp
 )
 
 find_package(Catch2 REQUIRED)
 add_executable(test main.cpp ${TESTSOURCES})
-target_link_libraries(test Catch2::Catch2)
+target_link_libraries(test core Catch2::Catch2 Qt5::Test)
