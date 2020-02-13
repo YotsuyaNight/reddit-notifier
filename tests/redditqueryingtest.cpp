@@ -38,6 +38,15 @@ TEST_CASE("Query subreddit for data and parse it")
         REQUIRE(query.getData().size() > 0);
     }
 
+    SECTION("RedditQuery invalid link test")
+    {
+        RedditQuery invalidquery("ojhiowfbeioufjewnfoe", "wqdqwdq");
+        QSignalSpy spy(&invalidquery, &RedditQuery::done);
+        invalidquery.fire();
+        spy.wait(10000);
+        REQUIRE(invalidquery.getStatus() == 302);
+    }
+
     SECTION("PostParser test")
     {
         QByteArray data = query.getData();
