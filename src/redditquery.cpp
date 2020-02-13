@@ -34,7 +34,6 @@ RedditQuery::RedditQuery(const QString &subreddit, const QString &sort, const QS
 void RedditQuery::fire()
 {
     QUrl url(QString("https://www.reddit.com/r/%1/%2/.json").arg(subreddit).arg(sort));
-    qDebug() << url;
     reply = nam.get(QNetworkRequest(url));
     connect(reply, &QNetworkReply::finished, this, &RedditQuery::replyFinished);
     connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
@@ -43,14 +42,14 @@ void RedditQuery::fire()
 
 void RedditQuery::replyFinished()
 {
-    qDebug() << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-    qDebug() << reply->bytesAvailable();
+    data = reply->readAll();
+    status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     reply->deleteLater();
 }
 
 void RedditQuery::replyError(QNetworkReply::NetworkError code)
 {
-    qDebug() << code;
+    status = code;
     reply->deleteLater();
 }
 

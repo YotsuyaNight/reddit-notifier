@@ -33,6 +33,8 @@ class RedditQuery : public QObject
 public:
     RedditQuery(const QString &subreddit, const QString &sort, const QString &before = "");
     void fire();
+    int getStatus();
+    QByteArray getData();
 
 private slots:
     void replyFinished();
@@ -40,6 +42,8 @@ private slots:
 
 private:
     static QNetworkAccessManager nam;
+    int status;
+    QByteArray data;
     QString subreddit;
     QString sort;
     QString before;
