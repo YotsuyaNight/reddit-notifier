@@ -17,18 +17,39 @@
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include <catch2/catch.hpp>
 #include "redditquery.h"
+#include "postparser.h"
+#include <catch2/catch.hpp>
 #include <QSignalSpy>
 
 using namespace rn;
 
-TEST_CASE("RedditQuery sample request")
+RedditQuery query("manga", "new");
+
+TEST_CASE("Query subreddit for data and parse it")
 {
-    RedditQuery q("manga", "new");
-    QSignalSpy spy(&q, &RedditQuery::done);
-    q.fire();
-    spy.wait(10000);
-    REQUIRE(q.getStatus() == 200);
-    REQUIRE(q.getData().size() > 0);
+
+    SECTION("RedditQuery test")
+    {
+        QSignalSpy spy(&query, &RedditQuery::done);
+        query.fire();
+        spy.wait(10000);
+        REQUIRE(query.getStatus() == 200);
+        REQUIRE(query.getData().size() > 0);
+    }
+
+    SECTION("PostParser test")
+    {
+        QByteArray data = query.getData();
+        PostParser parser(data);
+        REQUIRE(parser.isValid() == true);
+    }
+
+    SECTION("PostParser invalid data test")
+    {
+        QByteArray data("This is some invalid JSON data", 31);
+        PostParser parser(data);
+        REQUIRE(parser.isValid() == false);
+    }
+
 }

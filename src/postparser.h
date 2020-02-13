@@ -17,32 +17,28 @@
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef POST_H
-#define POST_H
+#ifndef POSTPARSER_H
+#define POSTPARSER_H
 
-#include <QString>
-#include <QUrl>
+#include "post.h"
+#include <QByteArray>
+#include <QVector>
+#include <QJsonDocument>
 
 namespace rn {
 
-class Post
+class PostParser
 {
+
 public:
-    Post() = default;
-    Post(const Post &other) = default;
-    Post(QString title, QString author, QString selfText, QUrl post, QUrl comments);
-    QString getTitle();
-    QString getAuthor();
-    QString getSelfText();
-    QUrl getPost();
-    QUrl getComments();
+    PostParser(QByteArray &data);
+    bool isValid();
+    QString errorMessage();
+    QVector<Post> parse();
 
 private:
-    QString title;
-    QString author;
-    QString selfText;
-    QUrl post;
-    QUrl comments;
+    QJsonDocument document;
+    QJsonParseError error;
 
 };
 

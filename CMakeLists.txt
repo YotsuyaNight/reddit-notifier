@@ -20,6 +20,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_INSTALL_RPATH .)
 set(SOURCES
         src/post.cpp
+        src/postparser.cpp
         src/redditquery.cpp
 )
 set(UISOURCES

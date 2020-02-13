@@ -3,7 +3,7 @@ project(rn_tests)
 
 # Testing
 set(TESTSOURCES
-    redditquery.cpp
+    redditqueryingtest.cpp
 )
 
 find_package(Catch2 REQUIRED)
