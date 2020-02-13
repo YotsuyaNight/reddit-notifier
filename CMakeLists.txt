@@ -31,3 +31,5 @@ set(SOURCES
 include_directories(src ui)
 add_executable(app main.cpp ${SOURCES})
 target_link_libraries(app Qt5::Widgets Qt5::Network)
+
+add_subdirectory(tests)
