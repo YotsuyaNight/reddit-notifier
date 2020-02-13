@@ -30,7 +30,8 @@ class Post
 public:
     Post() = default;
     Post(const Post &other) = default;
-    Post(QString title, QString author, QString selfText, QUrl post, QUrl comments);
+    Post(const QString &title, const QString &author, const QString &selfText,
+         const QUrl &post, const QUrl &comments);
     QString getTitle();
     QString getAuthor();
     QString getSelfText();

@@ -31,7 +31,7 @@ class PostParser
 {
 
 public:
-    PostParser(QByteArray &data);
+    PostParser(const QByteArray &data);
     bool isValid();
     QString errorMessage();
     QVector<Post> parse();

@@ -24,7 +24,7 @@
 
 namespace rn {
 
-PostParser::PostParser(QByteArray &data)
+PostParser::PostParser(const QByteArray &data)
 {
     document = QJsonDocument::fromJson(data, &error);
 }
@@ -44,7 +44,7 @@ QVector<Post> PostParser::parse()
     QJsonArray posts = document.object().find("data").value().toObject()
                                         .find("children").value().toArray();
 
-    QVector<Post> postList = QVector<Post>(posts.size());
+    QVector<Post> postList = QVector<Post>();
     for (QJsonArray::Iterator it = posts.begin(); it != posts.end(); it++) {
         QJsonObject post = it->toObject().find("data").value().toObject();
         Post item(
@@ -56,7 +56,6 @@ QVector<Post> PostParser::parse()
         );
         postList.append(item);
     }
-
     return postList;
 }
 

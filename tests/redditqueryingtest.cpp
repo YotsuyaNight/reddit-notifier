@@ -21,6 +21,7 @@
 #include "postparser.h"
 #include <catch2/catch.hpp>
 #include <QSignalSpy>
+#include <QDebug>
 
 using namespace rn;
 
@@ -52,6 +53,10 @@ TEST_CASE("Query subreddit for data and parse it")
         QByteArray data = query.getData();
         PostParser parser(data);
         REQUIRE(parser.isValid() == true);
+        QVector<Post> posts = parser.parse();
+        for (int i = 0; i < posts.size(); i++) {
+            REQUIRE(posts[i].getTitle() != "");
+        }
     }
 
     SECTION("PostParser invalid data test")

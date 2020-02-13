@@ -21,7 +21,8 @@
 
 namespace rn {
 
-Post::Post(QString title, QString author, QString selfText, QUrl post, QUrl comments)
+Post::Post(const QString &title, const QString &author, const QString &selfText,
+           const QUrl &post, const QUrl &comments)
     : title(title), author(author), selfText(selfText), post(post), comments(comments)
 {
 }
