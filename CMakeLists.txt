@@ -22,6 +22,7 @@ set(SOURCES
         src/post.cpp
         src/postparser.cpp
         src/redditquery.cpp
+        src/watcher.cpp
 )
 set(UISOURCES
         ui/mainwindow.ui
