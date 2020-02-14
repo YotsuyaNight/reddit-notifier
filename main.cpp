@@ -22,7 +22,11 @@
 #include "traycontroller.h"
 #include "redditquery.h"
 
-using namespace rn;
+#include "post.h"
+#include "postlistmodel.h"
+#include <QVector>
+
+using namespace rn; 
 
 int main(int argc, char **argv)
 {
@@ -30,6 +34,27 @@ int main(int argc, char **argv)
     rn::MainWindow mw;
     TrayController tray(&app, &mw);
     
+    QVector<Post> posts;
+    posts.append(Post(
+        QString("Check out this dope app!"),
+        QString("Yotsuya"), QString("I made it!"),
+        QUrl("/r/linux/comments/f3pc50/which_sites_do_you_follow_to_stay_informed_about/"),
+        QUrl("https://github.com/YotsuyaNight/reddit-notifier")));
+    posts.append(Post(
+        QString("App that is dope AF!"),
+        QString("Yotsuya"), QString("I made it!"),
+        QUrl("/r/linux/comments/f3pc50/which_sites_do_you_follow_to_stay_informed_about/"),
+        QUrl("https://github.com/YotsuyaNight/reddit-notifier")));
+    posts.append(Post(
+        QString("This is a dope app!"),
+        QString("Yotsuya"), QString("I made it!"),
+        QUrl("/r/linux/comments/f3pc50/which_sites_do_you_follow_to_stay_informed_about/"),
+        QUrl("https://github.com/YotsuyaNight/reddit-notifier")));
+
+    PostListModel *model = new PostListModel(&mw);
+    model->postListUpdated(posts);
+    mw.getPostViewWidget()->setModel(model);
+
     mw.show();
 
     return app.exec();

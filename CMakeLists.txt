@@ -23,6 +23,7 @@ set(SOURCES
         src/postparser.cpp
         src/redditquery.cpp
         src/watcher.cpp
+        src/postlistmodel.cpp
 )
 set(UISOURCES
         ui/mainwindow.ui

@@ -32,11 +32,11 @@ public:
     Post(const Post &other) = default;
     Post(const QString &title, const QString &author, const QString &selfText,
          const QUrl &post, const QUrl &comments);
-    QString getTitle();
-    QString getAuthor();
-    QString getSelfText();
-    QUrl getPost();
-    QUrl getComments();
+    QString getTitle() const;
+    QString getAuthor() const;
+    QString getSelfText() const;
+    QUrl getPost() const;
+    QUrl getComments() const;
 
 private:
     QString title;

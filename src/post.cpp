@@ -27,27 +27,27 @@ Post::Post(const QString &title, const QString &author, const QString &selfText,
 {
 }
 
-QString Post::getTitle()
+QString Post::getTitle() const
 {
     return title;
 }
 
-QString Post::getAuthor()
+QString Post::getAuthor() const
 {
     return author;
 }
 
-QString Post::getSelfText()
+QString Post::getSelfText() const
 {
     return selfText;
 }
 
-QUrl Post::getComments()
+QUrl Post::getComments() const
 {
     return comments;
 }
 
-QUrl Post::getPost()
+QUrl Post::getPost() const
 {
     return post;
 }

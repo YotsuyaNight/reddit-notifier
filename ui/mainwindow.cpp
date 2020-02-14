@@ -26,4 +26,9 @@ MainWindow::MainWindow()
     setupUi(this);
 }
 
+QListView* MainWindow::getPostViewWidget()
+{
+    return postView;
+}
+
 }

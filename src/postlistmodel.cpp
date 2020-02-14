@@ -17,24 +17,37 @@
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-
-#include "ui_mainwindow.h"
-#include <QListView>
+#include "postlistmodel.h"
+#include <QDebug>
 
 namespace rn {
 
-class MainWindow : public QMainWindow, public Ui::MainWindow
+PostListModel::PostListModel(QObject *parent)
+    : QAbstractListModel(parent)
 {
-    Q_OBJECT
-
-public:
-    explicit MainWindow();
-    QListView* getPostViewWidget();
-
-};
-
 }
 
-#endif
+QVariant PostListModel::data(const QModelIndex &index, int role) const
+{
+    int row = index.row();
+
+    if (row < postList.size()) {
+        if (role == Qt::DisplayRole)
+            return postList[row].getTitle();
+    }
+
+    return QVariant();
+}
+
+int PostListModel::rowCount(const QModelIndex &parent) const
+{
+    Q_UNUSED(parent);
+    return postList.size();
+}
+
+void PostListModel::postListUpdated(const QVector<Post> &newList)
+{
+    postList = newList;
+}
+
+}

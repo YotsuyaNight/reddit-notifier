@@ -18,11 +18,7 @@
     <item row="0" column="0">
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Hello world</string>
-        </property>
-       </widget>
+       <widget class="QListView" name="postView"/>
       </item>
      </layout>
     </item>
