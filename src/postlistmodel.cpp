@@ -47,7 +47,9 @@ int PostListModel::rowCount(const QModelIndex &parent) const
 
 void PostListModel::postListUpdated(const QVector<Post> &newList)
 {
+    beginResetModel();
     postList = newList;
+    endResetModel();
 }
 
 }

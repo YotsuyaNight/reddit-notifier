@@ -23,9 +23,12 @@
 #include "redditquery.h"
 
 #include "post.h"
+#include "postparser.h"
 #include "postlistmodel.h"
 #include "postdelegate.h"
 #include <QVector>
+#include <QTimer>
+#include <QDebug>
 
 using namespace rn; 
 
@@ -34,29 +37,25 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
     rn::MainWindow mw;
     TrayController tray(&app, &mw);
-    
-    QVector<Post> posts;
-    posts.append(Post(
-        QString("Check out this dope app!"),
-        QString("Yotsuya"), QString("I made it!"),
-        QUrl("/r/linux/comments/f3pc50/which_sites_do_you_follow_to_stay_informed_about/"),
-        QUrl("https://github.com/YotsuyaNight/reddit-notifier")));
-    posts.append(Post(
-        QString("App that is dope AF!"),
-        QString("Yotsuya"), QString("I made it!"),
-        QUrl("/r/linux/comments/f3pc50/which_sites_do_you_follow_to_stay_informed_about/"),
-        QUrl("https://github.com/YotsuyaNight/reddit-notifier")));
-    posts.append(Post(
-        QString("This is a dope app!"),
-        QString("Yotsuya"), QString("I made it!"),
-        QUrl("/r/linux/comments/f3pc50/which_sites_do_you_follow_to_stay_informed_about/"),
-        QUrl("https://github.com/YotsuyaNight/reddit-notifier")));
 
     PostListModel *model = new PostListModel(&mw);
     PostDelegate *delegate = new PostDelegate(&mw);
-    model->postListUpdated(posts);
     mw.getPostViewWidget()->setModel(model);
     mw.getPostViewWidget()->setItemDelegate(delegate);
+
+    RedditQuery query("linux", "new");
+    QObject::connect(&query, &RedditQuery::done, [&query, model](){
+        PostParser parser(query.getData());
+        qDebug() << "Query returned status " << query.getStatus();
+        QVector<Post> data = parser.parse();
+        qDebug() << "Number of entries arrived: " << data.size();
+        model->postListUpdated(data);
+    });
+
+    QTimer::singleShot(0, [&query](){
+        qDebug() << "Firing query!";
+        query.fire();
+    });
 
     mw.show();
 
