@@ -24,6 +24,7 @@
 
 #include "post.h"
 #include "postlistmodel.h"
+#include "postdelegate.h"
 #include <QVector>
 
 using namespace rn; 
@@ -52,8 +53,10 @@ int main(int argc, char **argv)
         QUrl("https://github.com/YotsuyaNight/reddit-notifier")));
 
     PostListModel *model = new PostListModel(&mw);
+    PostDelegate *delegate = new PostDelegate(&mw);
     model->postListUpdated(posts);
     mw.getPostViewWidget()->setModel(model);
+    mw.getPostViewWidget()->setItemDelegate(delegate);
 
     mw.show();
 

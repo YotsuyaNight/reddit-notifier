@@ -29,6 +29,7 @@ set(UISOURCES
         ui/mainwindow.ui
         ui/mainwindow.cpp
         ui/traycontroller.cpp
+        ui/postdelegate.cpp
         resources/resources.qrc
 )
 include_directories(src ui)
