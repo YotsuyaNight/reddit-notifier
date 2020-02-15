@@ -19,7 +19,7 @@
 
 #include "redditquery.h"
 #include "postparser.h"
-#include "watcher.h"
+#include "notifier.h"
 #include <catch2/catch.hpp>
 #include <QSignalSpy>
 #include <QDebug>
@@ -67,7 +67,7 @@ TEST_CASE("Query subreddit for data and parse it")
         REQUIRE(parser.isValid() == false);
     }
 
-    SECTION("Watcher matching test")
+    SECTION("Notifier matching test")
     {
         QByteArray data("{ \n \"kind\": \"Listing\", \n \"data\": { \n \"modhash\": \"qoxphp6m1zf2947162f4fdae1fed304edd2a52bd6640861b09\", \n \"dist\": 2, \n \"children\": [ \n { \n \"kind\": \"t3\", \n \"data\": { \n \"selftext\": \"Some selftext\", \n \"title\": \"Some title\", \n \"author\": \"Marcin\", \n \"permalink\": \"/r/md/\", \n \"url\": \"https://dlubakowski.pl\" \n } \n }, \n { \n \"kind\": \"t3\", \n \"data\": { \n \"selftext\": \"Weird selftext\", \n \"title\": \"Weird title\", \n \"author\": \"Yotsuya\", \n \"permalink\": \"/r/programming/\", \n \"url\": \"https://github.com\" \n } \n } \n ] \n } \n }", 505);
         PostParser parser(data);
@@ -75,13 +75,13 @@ TEST_CASE("Query subreddit for data and parse it")
         REQUIRE(parser.parse().size() == 2);
 
         QString error = "";
-        Watcher watcher("dev", "new");
-        watcher.addFilter("Some", &error);
+        Notifier notifier("dev", "new");
+        notifier.addFilter("Some", &error);
         REQUIRE(error == "");
-        watcher.addFilter("45u24-[", &error);
+        notifier.addFilter("45u24-[", &error);
         REQUIRE(error != "");
 
-        QVector<Post> filtered = watcher.filter(parser.parse());
+        QVector<Post> filtered = notifier.filter(parser.parse());
         REQUIRE(filtered.size() == 1);
     }
 

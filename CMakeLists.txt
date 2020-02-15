@@ -22,7 +22,7 @@ set(SOURCES
         src/post.cpp
         src/postparser.cpp
         src/redditquery.cpp
-        src/watcher.cpp
+        src/notifier.cpp
         src/postlistmodel.cpp
 )
 set(UISOURCES

@@ -17,17 +17,17 @@
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include "watcher.h"
+#include "notifier.h"
 #include <QDebug>
 
 namespace rn {
 
-Watcher::Watcher(const QString &subreddit, const QString &sort)
+Notifier::Notifier(const QString &subreddit, const QString &sort)
     : subreddit(subreddit), sort(sort)
 {
 }
 
-bool Watcher::addFilter(const QString &pattern, QString *error)
+bool Notifier::addFilter(const QString &pattern, QString *error)
 {
     QRegularExpression expr(pattern);
     if (!expr.isValid()) {
@@ -38,7 +38,7 @@ bool Watcher::addFilter(const QString &pattern, QString *error)
     return true;
 }
 
-QVector<Post> Watcher::filter(const QVector<Post> &list)
+QVector<Post> Notifier::filter(const QVector<Post> &list)
 {
     QVector<Post> filtered;
     for (Post post : list) {

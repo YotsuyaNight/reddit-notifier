@@ -17,8 +17,8 @@
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef WATCHER_H
-#define WATCHER_H
+#ifndef NOFITIER_H
+#define NOTIFIER_H
 
 #include "post.h"
 #include <QString>
@@ -27,10 +27,10 @@
 
 namespace rn {
 
-class Watcher
+class Notifier
 {
 public:
-    Watcher(const QString &subreddit, const QString &sort);
+    Notifier(const QString &subreddit, const QString &sort);
     bool addFilter(const QString &pattern, QString *error = nullptr);
     QVector<Post> filter(const QVector<Post> &list); 
 
