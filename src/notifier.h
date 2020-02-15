@@ -24,22 +24,32 @@
 #include <QString>
 #include <QRegularExpression>
 #include <QVector>
+#include <QTime>
 
 namespace rn {
 
 class Notifier
 {
 public:
-    Notifier(const QString &subreddit, const QString &sort);
+    Notifier(const QString &subreddit, const QString &sort, int interval = 60);
     bool addFilter(const QString &pattern, QString *error = nullptr);
-    QVector<Post> filter(const QVector<Post> &list); 
+    QVector<Post> filter(const QVector<Post> &list) const;
+    QString getSubreddit() const;
+    QString getSort() const;
+    int getInterval() const;
 
 private:
     QString subreddit;
     QString sort;
     QVector<QRegularExpression> filters;
+    int interval;
 
 };
+
+inline bool operator<(const Notifier &one, const Notifier &two)
+{
+    return one.getSubreddit() < two.getSubreddit();
+}
 
 }
 

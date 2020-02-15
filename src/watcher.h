@@ -17,33 +17,39 @@
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include <QApplication>
-#include "mainwindow.h"
-#include "traycontroller.h"
-#include "redditquery.h"
+#ifndef WATCHER_H
+#define WATCHER_H
 
-#include "post.h"
-#include "postparser.h"
-#include "postlistmodel.h"
-#include "postdelegate.h"
-#include "watcher.h"
-#include <QVector>
+#include "notifier.h"   
+#include "post.h"   
 #include <QTimer>
-#include <QDebug>
+#include <QMap>
+#include <QVector>
+#include <QSharedPointer>
 
-using namespace rn; 
+namespace rn {
 
-int main(int argc, char **argv)
+class Watcher : public QObject
 {
-    QApplication app(argc, argv);
-    MainWindow mw;
-    TrayController tray(&app, &mw);
+    Q_OBJECT
 
-    Watcher watcher;
-    QObject::connect(&watcher, &Watcher::foundMatchingPosts,
-                     &mw, &MainWindow::watcherFoundMatchingPosts);
+public:
+    Watcher();
 
-    mw.show();
+private slots:
+    void query();
+    void redditQueryCallback(QSharedPointer<RedditQuery> query, const Notifier &n);
 
-    return app.exec();
+signals:
+    void foundMatchingPosts(QSharedPointer<QVector<Post>> list);
+
+private:
+    QVector<Notifier> notifiers;
+    QTimer timer;
+    QMap<Notifier, QTime> nextCheck;
+
+};
+
 }
+
+#endif

@@ -21,7 +21,10 @@
 #define MAINWINDOW_H
 
 #include "ui_mainwindow.h"
+#include "post.h"
 #include <QListView>
+#include <QVector>
+#include <QSharedPointer>
 
 namespace rn {
 
@@ -32,6 +35,9 @@ class MainWindow : public QMainWindow, public Ui::MainWindow
 public:
     explicit MainWindow();
     QListView* getPostViewWidget();
+
+public slots:
+    void watcherFoundMatchingPosts(QSharedPointer<QVector<Post>> list);
 
 };
 

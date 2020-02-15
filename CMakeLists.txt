@@ -24,6 +24,7 @@ set(SOURCES
         src/redditquery.cpp
         src/notifier.cpp
         src/postlistmodel.cpp
+        src/watcher.cpp
 )
 set(UISOURCES
         ui/mainwindow.ui

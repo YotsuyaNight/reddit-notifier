@@ -22,15 +22,15 @@
 
 namespace rn {
 
-Notifier::Notifier(const QString &subreddit, const QString &sort)
-    : subreddit(subreddit), sort(sort)
+Notifier::Notifier(const QString &subreddit, const QString &sort, int interval)
+    : subreddit(subreddit), sort(sort), interval(interval)
 {
 }
 
 bool Notifier::addFilter(const QString &pattern, QString *error)
 {
     QRegularExpression expr(pattern);
-    if (!expr.isValid()) {
+    if (!expr.isValid() && error != nullptr) {
         *error = expr.errorString();
         return false;
     }
@@ -38,7 +38,7 @@ bool Notifier::addFilter(const QString &pattern, QString *error)
     return true;
 }
 
-QVector<Post> Notifier::filter(const QVector<Post> &list)
+QVector<Post> Notifier::filter(const QVector<Post> &list) const
 {
     QVector<Post> filtered;
     for (Post post : list) {
@@ -50,6 +50,21 @@ QVector<Post> Notifier::filter(const QVector<Post> &list)
         }
     }
     return filtered;
+}
+
+QString Notifier::getSubreddit() const
+{
+    return subreddit;
+}
+
+QString Notifier::getSort() const
+{
+    return sort;
+}
+
+int Notifier::getInterval() const
+{
+    return interval;
 }
 
 }

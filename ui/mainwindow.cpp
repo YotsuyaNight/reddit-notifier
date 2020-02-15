@@ -18,17 +18,26 @@
 */
 
 #include "mainwindow.h"
+#include "postdelegate.h"
+#include <QDebug>
 
 namespace rn {
 
 MainWindow::MainWindow()
 {
     setupUi(this);
+    PostDelegate *delegate = new PostDelegate(this);
+    postView->setItemDelegate(delegate);
 }
 
 QListView* MainWindow::getPostViewWidget()
 {
     return postView;
+}
+
+void MainWindow::watcherFoundMatchingPosts(QSharedPointer<QVector<Post>> list)
+{
+    qDebug() << "Posts found count: " << list->size();
 }
 
 }
