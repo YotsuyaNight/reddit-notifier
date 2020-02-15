@@ -27,7 +27,9 @@ MainWindow::MainWindow()
 {
     setupUi(this);
     PostDelegate *delegate = new PostDelegate(this);
+    model = new PostListModel(this);
     postView->setItemDelegate(delegate);
+    postView->setModel(model);
 }
 
 QListView* MainWindow::getPostViewWidget()
@@ -37,7 +39,19 @@ QListView* MainWindow::getPostViewWidget()
 
 void MainWindow::watcherFoundMatchingPosts(QSharedPointer<QVector<Post>> list)
 {
-    qDebug() << "Posts found count: " << list->size();
+    QVector<Post> newPosts;
+    for (Post p : *list) {
+        if (postList.indexOf(p) == -1) {
+            newPosts.append(p);
+        }
+    }
+    if (newPosts.size() > 0) {
+        postList.append(newPosts);
+        model->postListUpdated(postList);
+        for (Post p : newPosts) {
+            emit newPost(p);
+        }
+    }
 }
 
 }

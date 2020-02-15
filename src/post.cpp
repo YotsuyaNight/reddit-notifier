@@ -52,4 +52,9 @@ QUrl Post::getPost() const
     return post;
 }
 
+bool Post::operator==(const Post &other)
+{
+    return (title == other.title && author == other.author);
+}
+
 }

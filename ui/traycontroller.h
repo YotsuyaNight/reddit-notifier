@@ -21,6 +21,7 @@
 #define TRAY_H
 
 #include "mainwindow.h"
+#include "post.h"
 #include <QApplication>
 #include <QMenu>
 #include <QSystemTrayIcon>
@@ -34,6 +35,9 @@ Q_OBJECT
 public:
     explicit TrayController(QApplication *app, MainWindow *mainWindow);
     virtual ~TrayController();
+
+public slots:
+    void newPostNotification(const Post &post);
 
 private:
     QApplication *app;

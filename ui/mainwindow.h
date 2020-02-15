@@ -22,6 +22,7 @@
 
 #include "ui_mainwindow.h"
 #include "post.h"
+#include "postlistmodel.h"
 #include <QListView>
 #include <QVector>
 #include <QSharedPointer>
@@ -38,6 +39,13 @@ public:
 
 public slots:
     void watcherFoundMatchingPosts(QSharedPointer<QVector<Post>> list);
+
+signals:
+    void newPost(const Post &post);
+
+private:
+    PostListModel *model;
+    QVector<Post> postList;
 
 };
 

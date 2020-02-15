@@ -37,6 +37,7 @@ public:
     QString getSelfText() const;
     QUrl getPost() const;
     QUrl getComments() const;
+    bool operator==(const Post &other);
 
 private:
     QString title;

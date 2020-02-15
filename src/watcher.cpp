@@ -26,12 +26,9 @@ namespace rn {
 
 Watcher::Watcher()
 {
-    Notifier a("linux", "new", 2);
+    Notifier a("funny", "new", 10);
     a.addFilter(".*");
     notifiers.append(a);
-    Notifier b("manga", "new", 6);
-    b.addFilter(".*");
-    notifiers.append(b);
 
     connect(&timer, &QTimer::timeout, this, &Watcher::query);
     timer.start(1000);

@@ -25,21 +25,31 @@ namespace rn {
 TrayController::TrayController(QApplication *app, MainWindow *mainWindow) 
     : app(app), mainWindow(mainWindow)
 {
-    //Setup context menu
+    // Setup context menu
     menu = new QMenu();
     menu->addAction("Show", mainWindow, &MainWindow::show);
     menu->addAction("Exit", app, &QApplication::quit);
 
-    //Setup icon
+    // Setup icon
     icon.setIcon(QIcon(":icon.png"));
     icon.show();
-    icon.showMessage("Running", "The program is now running");
     icon.setContextMenu(menu);
+
+    // Setup notification connection
+    connect(mainWindow, &MainWindow::newPost, this, &TrayController::newPostNotification);
 }
 
 TrayController::~TrayController()
 {
     delete menu;
+}
+
+void TrayController::newPostNotification(const Post &post)
+{
+    icon.showMessage(
+        QStringLiteral("New post"),
+        "\"" + post.getTitle() + "\" by " + post.getAuthor()
+    );
 }
 
 }
