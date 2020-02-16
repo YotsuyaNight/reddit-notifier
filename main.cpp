@@ -17,25 +17,20 @@
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include <QApplication>
 #include "mainwindow.h"
 #include "traycontroller.h"
-#include "redditquery.h"
-
-#include "post.h"
-#include "postparser.h"
-#include "postlistmodel.h"
-#include "postdelegate.h"
 #include "watcher.h"
-#include <QVector>
-#include <QTimer>
-#include <QDebug>
+#include <QApplication>
 
 using namespace rn; 
 
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
+    app.setApplicationName("Reddit Notifier");
+    app.setApplicationVersion("0.0.1");
+    app.setWindowIcon(QIcon(":icon.png"));
+
     MainWindow mw;
     TrayController tray(&app, &mw);
 

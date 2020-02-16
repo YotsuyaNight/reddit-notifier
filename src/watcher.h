@@ -20,8 +20,9 @@
 #ifndef WATCHER_H
 #define WATCHER_H
 
-#include "notifier.h"   
-#include "post.h"   
+#include "notifier.h"
+#include "post.h"
+#include "redditquery.h"
 #include <QTimer>
 #include <QMap>
 #include <QVector>
