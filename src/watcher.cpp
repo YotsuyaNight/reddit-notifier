@@ -18,7 +18,6 @@
 */
 
 #include "redditquery.h"
-#include "postparser.h"
 #include "watcher.h"
 #include <QDebug>
 
@@ -26,41 +25,58 @@ namespace rn {
 
 Watcher::Watcher()
 {
-    Notifier a("funny", "new", 10);
+    Notifier a("linux", "new", 60);
     a.addFilter(".*");
     notifiers.append(a);
+    Notifier b("manga", "new", 30);
+    b.addFilter(".*");
+    notifiers.append(b);
 
     connect(&timer, &QTimer::timeout, this, &Watcher::query);
-    timer.start(1000);
+    timer.start(30000);
     query();
 }
 
 void Watcher::query()
 {
-    for (Notifier n : notifiers) {
+    if (queries.size() == 0) {
         QTime current = QTime::currentTime();
-        if (nextCheck.value(n) <= current) {
-            QSharedPointer<RedditQuery> query(new RedditQuery(n.getSubreddit(), n.getSort()));
-            connect(&(*query), &RedditQuery::done, [this, n, query](){
-                redditQueryCallback(query, n);
-            });
-            query->fire();
-            nextCheck.insert(n, current.addSecs(n.getInterval()));
-            qDebug() << "Fired query for " << n.getSubreddit() << "/" << n.getSort();
+        for (Notifier n : notifiers) {
+            if (nextCheck.value(n) <= current) {
+                queries.insert(n, new RedditQuery(n.getSubreddit(), n.getSort()));
+            }
         }
+        if (queries.size() > 0) {
+            barrierCount = queries.size();
+            qDebug() << "Initialized barrier with count=" << barrierCount;
+            QMap<Notifier, RedditQuery*>::Iterator it = queries.begin();
+            while (it != queries.end()) {
+                connect(*it, &RedditQuery::done, this, &Watcher::reachBarrier);
+                (*it)->fire();
+                nextCheck.insert(it.key(), current.addSecs(it.key().getInterval()));
+                it++;
+            }
+        }
+    } else {
+        qDebug() << "Previous queries are still pending, skipping this iteration";
     }
 }
 
-void Watcher::redditQueryCallback(QSharedPointer<RedditQuery> query, const Notifier &n)
+void Watcher::reachBarrier()
 {
-    qDebug() << "Called callback for " << n.getSubreddit() << "/" << n.getSort();
-    PostParser parser(query->getData());
-    if (parser.isValid()) {
-        QVector<Post> list = parser.parse();
-        QSharedPointer<QVector<Post>> matching(new QVector<Post>(n.filter(list)));
-        if (matching->size() > 0) {
-            emit foundMatchingPosts(matching);
+    barrierCount -= 1;
+    qDebug() << "Arrived at barrier, current count =" << barrierCount;
+    if (barrierCount == 0) {
+        QSharedPointer<QVector<Post>> newPosts(new QVector<Post>());
+        QMap<Notifier, RedditQuery*>::Iterator it = queries.begin();
+        while (it != queries.end()) {
+            QVector<Post> filteredPosts = it.key().filter((*it)->getData());
+            newPosts->append(filteredPosts);
+            delete (*it);
+            it++;
         }
+        emit foundMatchingPosts(newPosts);
+        queries.clear();
     }
 }
 

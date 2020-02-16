@@ -38,14 +38,16 @@ public:
 
 private slots:
     void query();
-    void redditQueryCallback(QSharedPointer<RedditQuery> query, const Notifier &n);
+    void reachBarrier();
 
 signals:
     void foundMatchingPosts(QSharedPointer<QVector<Post>> list);
 
 private:
     QVector<Notifier> notifiers;
+    int barrierCount;
     QTimer timer;
+    QMap<Notifier, RedditQuery*> queries;
     QMap<Notifier, QTime> nextCheck;
 
 };

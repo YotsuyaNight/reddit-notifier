@@ -20,9 +20,11 @@
 #ifndef REDDITQUERY_H
 #define REDDITQUERY_H
 
+#include "post.h"
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QString>
+#include <QVector>
 
 namespace rn {
 
@@ -34,7 +36,7 @@ public:
     RedditQuery(const QString &subreddit, const QString &sort, const QString &before = "");
     void fire();
     int getStatus();
-    QByteArray getData();
+    QVector<Post> getData();
 
 private slots:
     void replyFinished();
@@ -46,7 +48,7 @@ signals:
 private:
     static QNetworkAccessManager nam;
     int status;
-    QByteArray data;
+    QVector<Post> data;
     QString subreddit;
     QString sort;
     QString before;

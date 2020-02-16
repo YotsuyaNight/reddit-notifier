@@ -39,18 +39,16 @@ QListView* MainWindow::getPostViewWidget()
 
 void MainWindow::watcherFoundMatchingPosts(QSharedPointer<QVector<Post>> list)
 {
-    QVector<Post> newPosts;
+    QSharedPointer<QVector<Post>> newPostsList(new QVector<Post>());
     for (Post p : *list) {
         if (postList.indexOf(p) == -1) {
-            newPosts.append(p);
+            newPostsList->append(p);
         }
     }
-    if (newPosts.size() > 0) {
-        postList.append(newPosts);
+    if (newPostsList->size() > 0) {
+        postList.append(*newPostsList);
         model->postListUpdated(postList);
-        for (Post p : newPosts) {
-            emit newPost(p);
-        }
+        emit newPosts(newPostsList);
     }
 }
 

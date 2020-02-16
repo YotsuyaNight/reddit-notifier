@@ -18,6 +18,7 @@
 */
 
 #include "redditquery.h"
+#include "postparser.h"
 #include <QUrl>
 #include <QDebug>
 
@@ -44,14 +45,18 @@ int RedditQuery::getStatus()
     return status;
 }
 
-QByteArray RedditQuery::getData()
+QVector<Post> RedditQuery::getData()
 {
     return data;
 }
 
 void RedditQuery::replyFinished()
 {
-    data = reply->readAll();
+    QByteArray rawData = reply->readAll();
+    PostParser parser(rawData);
+    if (parser.isValid()) {
+        data = parser.parse();
+    }
     status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     reply->deleteLater();
     emit done();

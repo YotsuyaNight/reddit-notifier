@@ -37,7 +37,7 @@ public:
     virtual ~TrayController();
 
 public slots:
-    void newPostNotification(const Post &post);
+    void newPostsNotification(QSharedPointer<QVector<Post>> list);
 
 private:
     QApplication *app;

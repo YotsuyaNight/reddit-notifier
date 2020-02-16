@@ -36,7 +36,7 @@ TrayController::TrayController(QApplication *app, MainWindow *mainWindow)
     icon.setContextMenu(menu);
 
     // Setup notification connection
-    connect(mainWindow, &MainWindow::newPost, this, &TrayController::newPostNotification);
+    connect(mainWindow, &MainWindow::newPosts, this, &TrayController::newPostsNotification);
 }
 
 TrayController::~TrayController()
@@ -44,12 +44,19 @@ TrayController::~TrayController()
     delete menu;
 }
 
-void TrayController::newPostNotification(const Post &post)
+void TrayController::newPostsNotification(QSharedPointer<QVector<Post>> list)
 {
-    icon.showMessage(
-        QStringLiteral("New post"),
-        "\"" + post.getTitle() + "\" by " + post.getAuthor()
-    );
+    if (list->size() == 1) {
+        icon.showMessage(
+            QStringLiteral("New post"),
+            "\"" + list->at(0).getTitle() + "\" by " + list->at(0).getAuthor()
+        );
+    } else {
+        icon.showMessage(
+            QString::number(list->size()) + QStringLiteral(" new posts"),
+            "Check them out now!"
+        );
+    }
 }
 
 }

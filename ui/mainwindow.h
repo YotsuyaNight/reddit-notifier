@@ -41,7 +41,7 @@ public slots:
     void watcherFoundMatchingPosts(QSharedPointer<QVector<Post>> list);
 
 signals:
-    void newPost(const Post &post);
+    void newPosts(QSharedPointer<QVector<Post>> list);
 
 private:
     PostListModel *model;
