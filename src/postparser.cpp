@@ -51,6 +51,7 @@ QVector<Post> PostParser::parse()
             post.find("title").value().toString(),
             post.find("author").value().toString(),
             post.find("selftext").value().toString(),
+            post.find("subreddit").value().toString(),
             QUrl(post.find("url").value().toString()),
             QUrl(QStringLiteral("http://www.reddit.com") + post.find("permalink").value().toString())
         );

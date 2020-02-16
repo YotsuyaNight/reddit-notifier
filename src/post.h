@@ -31,10 +31,11 @@ public:
     Post() = default;
     Post(const Post &other) = default;
     Post(const QString &title, const QString &author, const QString &selfText,
-         const QUrl &post, const QUrl &comments);
+         const QString &subreddit, const QUrl &post, const QUrl &comments);
     QString getTitle() const;
     QString getAuthor() const;
     QString getSelfText() const;
+    QString getSubreddit() const;
     QUrl getPost() const;
     QUrl getComments() const;
     bool operator==(const Post &other);
@@ -43,6 +44,7 @@ private:
     QString title;
     QString author;
     QString selfText;
+    QString subreddit;
     QUrl post;
     QUrl comments;
 

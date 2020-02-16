@@ -22,8 +22,9 @@
 namespace rn {
 
 Post::Post(const QString &title, const QString &author, const QString &selfText,
-           const QUrl &post, const QUrl &comments)
-    : title(title), author(author), selfText(selfText), post(post), comments(comments)
+           const QString &subreddit, const QUrl &post, const QUrl &comments)
+    : title(title), author(author), selfText(selfText), 
+      subreddit(subreddit), post(post), comments(comments)
 {
 }
 
@@ -40,6 +41,11 @@ QString Post::getAuthor() const
 QString Post::getSelfText() const
 {
     return selfText;
+}
+
+QString Post::getSubreddit() const
+{
+    return subreddit;
 }
 
 QUrl Post::getComments() const

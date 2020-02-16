@@ -48,7 +48,7 @@ void TrayController::newPostsNotification(QSharedPointer<QVector<Post>> list)
 {
     if (list->size() == 1) {
         icon.showMessage(
-            QStringLiteral("New post"),
+            QStringLiteral("New post in /r/") + list->at(0).getSubreddit(),
             "\"" + list->at(0).getTitle() + "\" by " + list->at(0).getAuthor()
         );
     } else {
