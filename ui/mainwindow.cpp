@@ -18,7 +18,6 @@
 */
 
 #include "mainwindow.h"
-#include "postdelegate.h"
 #include <QDebug>
 
 namespace rn {

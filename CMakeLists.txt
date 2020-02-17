@@ -23,7 +23,6 @@ set(SOURCES
         src/postparser.cpp
         src/redditquery.cpp
         src/notifier.cpp
-        src/postlistmodel.cpp
         src/watcher.cpp
 )
 set(UISOURCES
@@ -31,7 +30,6 @@ set(UISOURCES
         ui/postviewwidget.ui
         ui/mainwindow.cpp
         ui/traycontroller.cpp
-        ui/postdelegate.cpp
         ui/postviewcontroller.cpp
         ui/postviewwidget.cpp
         resources/resources.qrc
