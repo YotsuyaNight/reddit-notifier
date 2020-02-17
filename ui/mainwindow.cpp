@@ -23,33 +23,20 @@
 
 namespace rn {
 
-MainWindow::MainWindow()
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
 {
     setupUi(this);
-    PostDelegate *delegate = new PostDelegate(this);
-    model = new PostListModel(this);
-    postView->setItemDelegate(delegate);
-    postView->setModel(model);
+    pvc = new PostViewController(postView);
+    connect(this, &MainWindow::watcherFoundMatchingPosts,
+            pvc, &PostViewController::watcherFoundMatchingPosts);
+    connect(pvc, &PostViewController::newPosts,
+            this, &MainWindow::newPosts);
 }
 
-QListView* MainWindow::getPostViewWidget()
+MainWindow::~MainWindow()
 {
-    return postView;
-}
-
-void MainWindow::watcherFoundMatchingPosts(QSharedPointer<QVector<Post>> list)
-{
-    QSharedPointer<QVector<Post>> newPostsList(new QVector<Post>());
-    for (Post p : *list) {
-        if (postList.indexOf(p) == -1) {
-            newPostsList->append(p);
-        }
-    }
-    if (newPostsList->size() > 0) {
-        postList.append(*newPostsList);
-        model->postListUpdated(postList);
-        emit newPosts(newPostsList);
-    }
+    delete pvc;
 }
 
 }

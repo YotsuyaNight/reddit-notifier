@@ -17,39 +17,30 @@
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include "postlistmodel.h"
-#include <QDebug>
+#include "postviewwidget.h"
 
 namespace rn {
 
-PostListModel::PostListModel(QObject *parent)
-    : QAbstractListModel(parent)
+PostViewWidget::PostViewWidget(const Post &post, QWidget *parent)
+    : QWidget(parent)
 {
-}
+    setupUi(this);
 
-QVariant PostListModel::data(const QModelIndex &index, int role) const
-{
-    int row = index.row();
-
-    if (row < postList.size()) {
-        if (role == Qt::DisplayRole)
-            return postList[row].getTitle();
+    QString titleUrl("/r/%1 <a href='%2'>%3</a>");
+    QString titleText = post.getTitle();
+    if (titleText.length() > 100) {
+        titleText.truncate(100);
+        titleText += QStringLiteral("...");
     }
+    titleUrl = titleUrl.arg(post.getSubreddit()).arg(post.getPost().url()).arg(titleText);
 
-    return QVariant();
-}
+    QString authorText = QString("posted by /u/%1").arg(post.getAuthor());
 
-int PostListModel::rowCount(const QModelIndex &parent) const
-{
-    Q_UNUSED(parent);
-    return postList.size();
-}
+    QString commentsUrl = QString("<a href='%1'>Comments</a>").arg(post.getComments().url());
 
-void PostListModel::postListUpdated(const QVector<Post> &newList)
-{
-    beginResetModel();
-    postList = newList;
-    endResetModel();
+    title->setText(titleUrl);
+    authorship->setText(authorText);
+    comments->setText(commentsUrl);
 }
 
 }

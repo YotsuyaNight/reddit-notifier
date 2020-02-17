@@ -17,23 +17,22 @@
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef POSTDELEGATE_H
-#define POSTDELEGATE_H
+#ifndef POSTVIEWWIDGET_H
+#define POSTVIEWWIDGET_H
 
-#include <QStyledItemDelegate>
+#include "ui_postviewwidget.h"
+#include "post.h"
+#include <QWidget>
 
 namespace rn {
 
-class PostDelegate : public QStyledItemDelegate
+class PostViewWidget : public QWidget, public Ui::PostViewWidget
 {
     Q_OBJECT
 
 public:
-    PostDelegate(QWidget *parent = 0);
-    void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index) const;
-    QSize sizeHint(const QStyleOptionViewItem &option,
-                   const QModelIndex &index) const;
+    explicit PostViewWidget(const Post &post, QWidget *parent = 0);
+
 };
 
 }

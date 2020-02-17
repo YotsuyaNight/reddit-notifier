@@ -17,34 +17,38 @@
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-
-#include "ui_mainwindow.h"
-#include "post.h"
 #include "postviewcontroller.h"
-#include <QVector>
-#include <QSharedPointer>
 
 namespace rn {
 
-class MainWindow : public QMainWindow, public Ui::MainWindow
+PostViewController::PostViewController(QVBoxLayout *container)
+    : container(container)
 {
-    Q_OBJECT
-
-public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-
-signals:
-    void watcherFoundMatchingPosts(QSharedPointer<QVector<Post>> list);
-    void newPosts(QSharedPointer<QVector<Post>> list);
-
-private:
-    PostViewController *pvc;
-
-};
-
 }
 
-#endif
+PostViewController::~PostViewController()
+{
+    QVector<PostViewWidget*>::Iterator it = postWidgetList.begin();
+    while (it != postWidgetList.end()) {
+        delete (*it);
+        it++;
+    }
+}
+
+void PostViewController::watcherFoundMatchingPosts(QSharedPointer<QVector<Post>> list)
+{
+    QSharedPointer<QVector<Post>> newPostsList(new QVector<Post>());
+    for (Post p : *list) {
+        if (postList.indexOf(p) == -1) {
+            newPostsList->append(p);
+            PostViewWidget *widget = new PostViewWidget(p);
+            container->addWidget(widget);
+        }
+    }
+    if (newPostsList->size() > 0) {
+        postList.append(*newPostsList);
+        emit newPosts(newPostsList);
+    }
+}
+
+}

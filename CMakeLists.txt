@@ -28,9 +28,12 @@ set(SOURCES
 )
 set(UISOURCES
         ui/mainwindow.ui
+        ui/postviewwidget.ui
         ui/mainwindow.cpp
         ui/traycontroller.cpp
         ui/postdelegate.cpp
+        ui/postviewcontroller.cpp
+        ui/postviewwidget.cpp
         resources/resources.qrc
 )
 include_directories(src ui)

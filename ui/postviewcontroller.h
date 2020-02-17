@@ -17,28 +17,35 @@
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef POSTLISTMODEL_H
-#define POSTLISTMODEL_H
+#ifndef POSTVIEWCONTROLLER_H
+#define POSTVIEWCONTROLLER_H
 
 #include "post.h"
-#include <QAbstractListModel>
+#include "postviewwidget.h"
+#include <QSharedPointer>
+#include <QVector>
+#include <QVBoxLayout>
 
 namespace rn {
 
-class PostListModel : public QAbstractListModel
+class PostViewController : public QObject
 {
     Q_OBJECT
 
 public:
-    PostListModel(QObject *parent = nullptr);
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    PostViewController(QVBoxLayout *container);
+    ~PostViewController();
 
 public slots:
-    void postListUpdated(const QVector<Post> &newList);
+    void watcherFoundMatchingPosts(QSharedPointer<QVector<Post>> list);
+
+signals:
+    void newPosts(QSharedPointer<QVector<Post>> list);
 
 private:
+    QVBoxLayout *container;
     QVector<Post> postList;
+    QVector<PostViewWidget*> postWidgetList;
 
 };
 
