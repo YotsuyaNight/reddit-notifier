@@ -67,4 +67,9 @@ int Notifier::getInterval() const
     return interval;
 }
 
+QVector<QRegularExpression> Notifier::getFilters() const
+{
+    return filters;
+}
+
 }

@@ -4,6 +4,7 @@ project(rn_tests)
 # Testing
 set(TESTSOURCES
     redditqueryingtest.cpp
+    configstest.cpp
 )
 
 find_package(Catch2 REQUIRED)

@@ -17,16 +17,39 @@
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#define CATCH_CONFIG_RUNNER
+#ifndef NOTIFIERCONFIG_H
+#define NOTIFIERCONFIG_H
 
-#include <catch2/catch.hpp>
-#include <QCoreApplication>
+#include "notifier.h"
+#include <QSettings>
+#include <QVector>
 
-int main(int argc, char **argv)
+namespace rn {
+
+class NotifierConfig : public QObject
 {
-    QCoreApplication app(argc, argv);
-    app.setOrganizationName("rntests");
-    app.setApplicationName("rntests");
-    const int res = Catch::Session().run(argc, argv);
-    return (res < 0xff ? res : 0xff);
+    Q_OBJECT
+
+public:
+    explicit NotifierConfig();
+    ~NotifierConfig();
+    void addNotifier(Notifier *notifier);
+    void removeNotifier(Notifier *notifier);
+    QVector<Notifier*> getNotifiers() const;
+    QString getFilename() const;
+
+signals:
+    void notifiersChanged();
+
+private:
+    void load();
+    void save();
+
+    QVector<Notifier*> notifierList;
+    QSettings settings;
+
+};
+
 }
+
+#endif

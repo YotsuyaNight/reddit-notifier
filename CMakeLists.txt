@@ -23,6 +23,7 @@ set(SOURCES
         src/postparser.cpp
         src/redditquery.cpp
         src/notifier.cpp
+        src/notifierconfig.cpp
         src/watcher.cpp
 )
 set(UISOURCES

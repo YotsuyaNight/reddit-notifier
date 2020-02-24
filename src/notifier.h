@@ -17,7 +17,7 @@
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef NOFITIER_H
+#ifndef NOTIFIER_H
 #define NOTIFIER_H
 
 #include "post.h"
@@ -37,6 +37,7 @@ public:
     QString getSubreddit() const;
     QString getSort() const;
     int getInterval() const;
+    QVector<QRegularExpression> getFilters() const;
 
 private:
     QString subreddit;
