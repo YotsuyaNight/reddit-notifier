@@ -31,11 +31,14 @@ MainWindow::MainWindow(QWidget *parent)
             pvc, &PostViewController::watcherFoundMatchingPosts);
     connect(pvc, &PostViewController::newPosts,
             this, &MainWindow::newPosts);
+    pvc = new PostViewController(postView);
+    cfc = new ConfigController(notifiersView);
 }
 
 MainWindow::~MainWindow()
 {
     delete pvc;
+    delete cfc;
 }
 
 }

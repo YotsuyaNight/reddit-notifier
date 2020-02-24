@@ -28,8 +28,11 @@ set(SOURCES
 )
 set(UISOURCES
         ui/mainwindow.ui
+        ui/notifierviewwidget.ui
         ui/postviewwidget.ui
+        ui/configcontroller.cpp
         ui/mainwindow.cpp
+        ui/notifierviewwidget.cpp
         ui/traycontroller.cpp
         ui/postviewcontroller.cpp
         ui/postviewwidget.cpp

@@ -23,6 +23,7 @@
 #include "ui_mainwindow.h"
 #include "post.h"
 #include "postviewcontroller.h"
+#include "configcontroller.h"
 #include <QVector>
 #include <QSharedPointer>
 
@@ -42,6 +43,7 @@ signals:
 
 private:
     PostViewController *pvc;
+    ConfigController *cfc;
 
 };
 

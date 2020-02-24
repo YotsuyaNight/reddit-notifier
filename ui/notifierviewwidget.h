@@ -17,17 +17,32 @@
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include "configcontroller.h"
+#ifndef NOTIFIERVIEWWIDGET_H
+#define NOTIFIERVIEWWIDGET_H
+
+#include "ui_notifierviewwidget.h"
+#include "notifier.h"
+#include <QWidget>
 
 namespace rn {
 
-ConfigController::ConfigController(QVBoxLayout *container)
-    : container(container)
+class NotifierViewWidget : public QWidget, public Ui::NotifierViewWidget
 {
-    for (Notifier *n : config.getNotifiers()) {
-        NotifierViewWidget *widget = new NotifierViewWidget(n);
-        container->addWidget(widget);
-    }
-}
+    Q_OBJECT
+
+public:
+    explicit NotifierViewWidget(Notifier *notifier, QWidget *parent = 0);
+
+private slots:
+    void edited(QVariant value);
+    void saveNotifier();
+    void removeNotifier();
+
+private:
+    Notifier *notifier;
+
+};
 
 }
+
+#endif
