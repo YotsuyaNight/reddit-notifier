@@ -45,11 +45,11 @@ signals:
     void foundMatchingPosts(QSharedPointer<QVector<Post>> list);
 
 private:
-    QVector<Notifier> notifiers;
+    QVector<Notifier*> notifiers;
     int barrierCount;
     QTimer timer;
-    QMap<Notifier, RedditQuery*> queries;
-    QMap<Notifier, QTime> nextCheck;
+    QMap<Notifier*, RedditQuery*> queries;
+    QMap<Notifier*, QTime> nextCheck;
 
 };
 

@@ -45,7 +45,7 @@ private:
     void load();
     void save();
 
-    QVector<Notifier*> notifierList;
+    static QVector<Notifier*> notifierList;
     QSettings settings;
 
 };

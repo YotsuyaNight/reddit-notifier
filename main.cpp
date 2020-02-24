@@ -28,6 +28,7 @@ int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
     app.setApplicationName("Reddit Notifier");
+    app.setOrganizationName("redditnotifier");
     app.setApplicationVersion("0.0.1");
     app.setWindowIcon(QIcon(":icon.png"));
 

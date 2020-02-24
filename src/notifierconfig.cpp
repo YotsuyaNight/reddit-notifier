@@ -22,6 +22,8 @@
 
 namespace rn {
 
+QVector<Notifier*> NotifierConfig::notifierList;
+
 NotifierConfig::NotifierConfig()
 {
     load();
@@ -29,9 +31,6 @@ NotifierConfig::NotifierConfig()
 
 NotifierConfig::~NotifierConfig()
 {
-    for (Notifier *n : notifierList) {
-        delete n;
-    }
 }
 
 void NotifierConfig::addNotifier(Notifier *notifier)
@@ -44,6 +43,7 @@ void NotifierConfig::removeNotifier(Notifier *notifier)
 {
     notifierList.removeAll(notifier);
     save();
+    delete notifier;
 }
 
 QVector<Notifier*> NotifierConfig::getNotifiers() const
