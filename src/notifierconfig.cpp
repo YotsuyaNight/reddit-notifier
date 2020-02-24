@@ -29,10 +29,6 @@ NotifierConfig::NotifierConfig()
     load();
 }
 
-NotifierConfig::~NotifierConfig()
-{
-}
-
 void NotifierConfig::addNotifier(Notifier *notifier)
 {
     notifierList.append(notifier);
@@ -53,6 +49,10 @@ QVector<Notifier*> NotifierConfig::getNotifiers() const
 
 void NotifierConfig::load()
 {
+    // Return early in case list is initialized alredy
+    if (notifierList.size() > 0)
+        return;
+
     int count = settings.beginReadArray("Notifiers");
     for (int i = 0; i < count; i++) {
         settings.setArrayIndex(i);

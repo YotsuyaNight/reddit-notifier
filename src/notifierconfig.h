@@ -26,13 +26,14 @@
 
 namespace rn {
 
+class NotifierConfigPrivate;
+
 class NotifierConfig : public QObject
 {
     Q_OBJECT
 
 public:
     explicit NotifierConfig();
-    ~NotifierConfig();
     void addNotifier(Notifier *notifier);
     void removeNotifier(Notifier *notifier);
     QVector<Notifier*> getNotifiers() const;
