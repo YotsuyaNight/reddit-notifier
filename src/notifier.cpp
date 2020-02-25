@@ -27,6 +27,14 @@ Notifier::Notifier(const QString &subreddit, const QString &sort, int interval)
 {
 }
 
+void Notifier::update(const QString &subreddit, const QString &sort, int interval)
+{
+    this->subreddit = subreddit;
+    this->sort = sort;
+    this->interval = interval;
+    emit updated();
+}
+
 bool Notifier::addFilter(const QString &pattern, QString *error)
 {
     QRegularExpression expr(pattern);

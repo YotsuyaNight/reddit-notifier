@@ -30,14 +30,19 @@ namespace rn {
 
 class Notifier
 {
+
 public:
     Notifier(const QString &subreddit, const QString &sort, int interval = 60);
+    void update(const QString &subreddit, const QString &sort, int interval);
     bool addFilter(const QString &pattern, QString *error = nullptr);
     QVector<Post> filter(const QVector<Post> &list) const;
     QString getSubreddit() const;
     QString getSort() const;
     int getInterval() const;
     QVector<QRegularExpression> getFilters() const;
+
+signals:
+    void updated();
 
 private:
     QString subreddit;
