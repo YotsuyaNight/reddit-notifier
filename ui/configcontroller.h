@@ -20,7 +20,6 @@
 #ifndef CONFIGCONTROLLER_H
 #define CONFIGCONTROLLER_H
 
-#include "notifierconfig.h"
 #include "notifierviewwidget.h"
 #include <QVBoxLayout>
 #include <QMap>
@@ -36,7 +35,6 @@ public:
 
 private:
     QVBoxLayout *container;
-    NotifierConfig config;
     QMap<Notifier*, NotifierViewWidget*> notifierWidgetList;
 
 };

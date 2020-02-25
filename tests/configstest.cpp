@@ -25,7 +25,7 @@ using namespace rn;
 
 TEST_CASE("Testing NotifierConfig config files")
 {
-    NotifierConfig *nc = new NotifierConfig();
+    NotifierConfig *nc = NotifierConfig::get();
     QFile configFile(nc->getFilename());
     REQUIRE(configFile.size() == 0);
 
@@ -42,21 +42,17 @@ TEST_CASE("Testing NotifierConfig config files")
     REQUIRE(nc->getNotifiers().size() == 2);
     REQUIRE(nc->getNotifiers()[0]->getFilters().size() == 2);
     REQUIRE(nc->getNotifiers()[1]->getFilters().size() == 2);
-    delete nc; // Sync
     
     int sizeWithTwoNotifiers = configFile.size();
     REQUIRE(sizeWithTwoNotifiers > 0);
 
     // Testing load
-    nc = new NotifierConfig();
     REQUIRE(nc->getNotifiers().size() == 2);
     REQUIRE(nc->getNotifiers()[0]->getFilters().size() == 2);
     REQUIRE(nc->getNotifiers()[1]->getFilters().size() == 2);
 
     // Testing removal
     nc->removeNotifier(nc->getNotifiers()[0]);
-    delete nc;
-    nc = new NotifierConfig();
     REQUIRE(nc->getNotifiers().size() == 1);
 
     REQUIRE(configFile.remove() == true);

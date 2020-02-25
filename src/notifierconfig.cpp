@@ -22,7 +22,15 @@
 
 namespace rn {
 
-QVector<Notifier*> NotifierConfig::notifierList;
+NotifierConfig *NotifierConfig::instance = nullptr;
+
+NotifierConfig* NotifierConfig::get()
+{
+    if (instance == nullptr) {
+        instance = new NotifierConfig();
+    }
+    return instance;
+}
 
 NotifierConfig::NotifierConfig()
 {
@@ -89,6 +97,7 @@ void NotifierConfig::save()
         settings.endArray();
     }
     settings.endArray();
+    settings.sync();
     emit notifiersChanged();
 }
 

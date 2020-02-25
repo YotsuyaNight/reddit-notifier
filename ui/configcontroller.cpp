@@ -18,13 +18,15 @@
 */
 
 #include "configcontroller.h"
+#include "notifierconfig.h"
 
 namespace rn {
 
 ConfigController::ConfigController(QVBoxLayout *container)
     : container(container)
 {
-    for (Notifier *n : config.getNotifiers()) {
+    NotifierConfig *config = NotifierConfig::get();
+    for (Notifier *n : config->getNotifiers()) {
         NotifierViewWidget *widget = new NotifierViewWidget(n);
         container->addWidget(widget);
     }

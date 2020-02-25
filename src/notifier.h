@@ -28,8 +28,9 @@
 
 namespace rn {
 
-class Notifier
+class Notifier : public QObject
 {
+    Q_OBJECT
 
 public:
     Notifier(const QString &subreddit, const QString &sort, int interval = 60);

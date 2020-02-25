@@ -33,7 +33,7 @@ class NotifierConfig : public QObject
     Q_OBJECT
 
 public:
-    explicit NotifierConfig();
+    static NotifierConfig* get();
     void addNotifier(Notifier *notifier);
     void removeNotifier(Notifier *notifier);
     QVector<Notifier*> getNotifiers() const;
@@ -43,10 +43,12 @@ signals:
     void notifiersChanged();
 
 private:
+    explicit NotifierConfig();
     void load();
     void save();
 
-    static QVector<Notifier*> notifierList;
+    static NotifierConfig *instance;
+    QVector<Notifier*> notifierList;
     QSettings settings;
 
 };

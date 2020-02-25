@@ -26,8 +26,8 @@ namespace rn {
 
 Watcher::Watcher()
 {
-    NotifierConfig cfg;
-    notifiers.append(cfg.getNotifiers());
+    NotifierConfig *cfg = NotifierConfig::get();
+    notifiers.append(cfg->getNotifiers());
     connect(&timer, &QTimer::timeout, this, &Watcher::query);
     timer.start(30000);
     query();
