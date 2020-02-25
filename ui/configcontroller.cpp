@@ -25,48 +25,51 @@ namespace rn {
 ConfigController::ConfigController(QVBoxLayout *container)
     : container(container)
 {
-    newNotifier = new Notifier("", "");
-    newNotifierWidget = new NotifierViewWidget(newNotifier);
-    connect(newNotifier, &Notifier::updated, this, &ConfigController::addNewNotifier);
-
-    connect(NotifierConfig::get(), &NotifierConfig::notifiersChanged,
-            this, &ConfigController::notifiersChanged);
-    notifiersChanged();
-}
-
-void ConfigController::addNewNotifier()
-{
-    // Store objects for reference
-    Notifier *addedNotifier = newNotifier;
-    NotifierViewWidget *oldWidget = newNotifierWidget;
-    // Create new objects for replacement
-    newNotifier = new Notifier("", "");
-    newNotifierWidget = new NotifierViewWidget(newNotifier);
-    // Update config with new notifier
+    // Connect NotifierConfig signals
     NotifierConfig *config = NotifierConfig::get();
-    config->addNotifier(addedNotifier);
-    // Delete
-    connect(newNotifier, &Notifier::updated, this, &ConfigController::addNewNotifier);
-    delete oldWidget;
-}
+    connect(config, &NotifierConfig::notifierAdded, this, &ConfigController::notifierAdded);
+    connect(config, &NotifierConfig::notifierRemoved, this, &ConfigController::notifierRemoved);
 
-void ConfigController::notifiersChanged()
-{
-    // Clear container
-    while (container->count() > 0) {
-        QLayoutItem *item = container->takeAt(0);
-        container->removeItem(item);
-        delete item;
-    }
-    // New notifier widget
+    // Prepare new Notifier widget
+    newNotifier = new Notifier("", "new");
+    newNotifierWidget = new NotifierViewWidget(newNotifier);
     container->addWidget(newNotifierWidget);
-    // Widgets for notifiers
-    NotifierConfig *config = NotifierConfig::get();
-    for (Notifier *n : config->getNotifiers()) {
-        NotifierViewWidget *widget = new NotifierViewWidget(n);
-        container->addWidget(widget);
-    }
+    connect(newNotifier, &Notifier::updated, this, &ConfigController::newNotifierCreated);
 
+    // Add all preexisting notifiers
+    for (Notifier *n : config->getNotifiers()) {
+        notifierAdded(n);
+    }
 }
+
+void ConfigController::newNotifierCreated()
+{
+    // Store pointers to old elements
+    Notifier *prevNewNotifier = newNotifier;
+    NotifierViewWidget *prevNewNotifierWidget = newNotifierWidget;
+    // Replace them with new versions
+    newNotifier = new Notifier("", "new");
+    newNotifierWidget = new NotifierViewWidget(newNotifier);
+    container->replaceWidget(prevNewNotifierWidget, newNotifierWidget);
+    connect(newNotifier, &Notifier::updated, this, &ConfigController::newNotifierCreated);
+    delete prevNewNotifierWidget;
+    NotifierConfig::get()->addNotifier(prevNewNotifier);
+}
+
+void ConfigController::notifierAdded(Notifier *notifier)
+{
+    NotifierViewWidget *widget = new NotifierViewWidget(notifier);
+    notifierWidgetList.insert(notifier, widget);
+    container->addWidget(widget);
+}
+
+void ConfigController::notifierRemoved(Notifier *notifier)
+{
+    NotifierViewWidget *widget = notifierWidgetList.value(notifier);
+    container->removeWidget(widget);
+    notifierWidgetList.remove(notifier);
+    delete widget;
+}
+
 
 }

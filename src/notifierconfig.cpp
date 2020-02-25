@@ -37,16 +37,26 @@ NotifierConfig::NotifierConfig()
     load();
 }
 
+void NotifierConfig::notifierUpdated()
+{
+    blockSignals(true);
+    save();
+    blockSignals(false);
+}
+
 void NotifierConfig::addNotifier(Notifier *notifier)
 {
     notifierList.append(notifier);
+    connect(notifier, &Notifier::updated, this, &NotifierConfig::notifierUpdated);
     save();
+    emit notifierAdded(notifier);
 }
 
 void NotifierConfig::removeNotifier(Notifier *notifier)
 {
     notifierList.removeAll(notifier);
     save();
+    emit notifierRemoved(notifier);
     delete notifier;
 }
 
@@ -76,6 +86,7 @@ void NotifierConfig::load()
         }
         settings.endArray();
         notifierList.append(n);
+        connect(n, &Notifier::updated, this, &NotifierConfig::notifierUpdated);
     }
     settings.endArray();
 }
@@ -98,7 +109,6 @@ void NotifierConfig::save()
     }
     settings.endArray();
     settings.sync();
-    emit notifiersChanged();
 }
 
 QString NotifierConfig::getFilename() const

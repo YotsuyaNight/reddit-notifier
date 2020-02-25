@@ -17,6 +17,7 @@
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+#include "notifierconfig.h"
 #include "notifierviewwidget.h"
 #include <QDebug>
 
@@ -53,7 +54,8 @@ void NotifierViewWidget::saveNotifier()
 
 void NotifierViewWidget::removeNotifier()
 {
-    qDebug() << "Should be removed now";
+    qDebug() << "Remove";
+    NotifierConfig::get()->removeNotifier(notifier);
 }
 
 }

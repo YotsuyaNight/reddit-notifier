@@ -26,7 +26,9 @@ namespace rn {
 
 Watcher::Watcher()
 {
-    connect(NotifierConfig::get(), &NotifierConfig::notifiersChanged, this, &Watcher::notifiersChanged);
+    NotifierConfig *config = NotifierConfig::get();
+    connect(config, &NotifierConfig::notifierAdded, this, &Watcher::notifiersChanged);
+    connect(config, &NotifierConfig::notifierRemoved, this, &Watcher::notifiersChanged);
     notifiersChanged();
     
     connect(&timer, &QTimer::timeout, this, &Watcher::query);

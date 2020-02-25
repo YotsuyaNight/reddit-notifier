@@ -40,7 +40,11 @@ public:
     QString getFilename() const;
 
 signals:
-    void notifiersChanged();
+    void notifierAdded(Notifier *notifier);
+    void notifierRemoved(Notifier *notifier);
+
+private slots:
+    void notifierUpdated();
 
 private:
     explicit NotifierConfig();

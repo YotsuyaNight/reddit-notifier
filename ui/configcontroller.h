@@ -34,8 +34,11 @@ public:
     ConfigController(QVBoxLayout *container);
 
 public slots:
-    void addNewNotifier();
-    void notifiersChanged();
+    void notifierAdded(Notifier *notifier);
+    void notifierRemoved(Notifier *notifier);
+
+private slots:
+    void newNotifierCreated();
 
 private:
     QVBoxLayout *container;
