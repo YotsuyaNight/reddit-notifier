@@ -33,8 +33,14 @@ class ConfigController : public QObject
 public:
     ConfigController(QVBoxLayout *container);
 
+public slots:
+    void addNewNotifier();
+    void notifiersChanged();
+
 private:
     QVBoxLayout *container;
+    Notifier *newNotifier;
+    NotifierViewWidget *newNotifierWidget;
     QMap<Notifier*, NotifierViewWidget*> notifierWidgetList;
 
 };

@@ -26,11 +26,20 @@ namespace rn {
 
 Watcher::Watcher()
 {
-    NotifierConfig *cfg = NotifierConfig::get();
-    notifiers.append(cfg->getNotifiers());
+    connect(NotifierConfig::get(), &NotifierConfig::notifiersChanged, this, &Watcher::notifiersChanged);
+    notifiersChanged();
+    
     connect(&timer, &QTimer::timeout, this, &Watcher::query);
     timer.start(30000);
     query();
+}
+
+void Watcher::notifiersChanged()
+{
+    qDebug() << "Received NotifiersChanged signal";
+    NotifierConfig *cfg = NotifierConfig::get();
+    notifiers.clear();
+    notifiers.append(cfg->getNotifiers());
 }
 
 void Watcher::query()

@@ -48,6 +48,7 @@ void NotifierViewWidget::saveNotifier()
 {
     qDebug() << "Saved";
     saveButton->setEnabled(false);
+    notifier->update(subreddit->text(), sort->currentText(), interval->value());
 }
 
 void NotifierViewWidget::removeNotifier()

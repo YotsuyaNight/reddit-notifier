@@ -25,11 +25,48 @@ namespace rn {
 ConfigController::ConfigController(QVBoxLayout *container)
     : container(container)
 {
+    newNotifier = new Notifier("", "");
+    newNotifierWidget = new NotifierViewWidget(newNotifier);
+    connect(newNotifier, &Notifier::updated, this, &ConfigController::addNewNotifier);
+
+    connect(NotifierConfig::get(), &NotifierConfig::notifiersChanged,
+            this, &ConfigController::notifiersChanged);
+    notifiersChanged();
+}
+
+void ConfigController::addNewNotifier()
+{
+    // Store objects for reference
+    Notifier *addedNotifier = newNotifier;
+    NotifierViewWidget *oldWidget = newNotifierWidget;
+    // Create new objects for replacement
+    newNotifier = new Notifier("", "");
+    newNotifierWidget = new NotifierViewWidget(newNotifier);
+    // Update config with new notifier
+    NotifierConfig *config = NotifierConfig::get();
+    config->addNotifier(addedNotifier);
+    // Delete
+    connect(newNotifier, &Notifier::updated, this, &ConfigController::addNewNotifier);
+    delete oldWidget;
+}
+
+void ConfigController::notifiersChanged()
+{
+    // Clear container
+    while (container->count() > 0) {
+        QLayoutItem *item = container->takeAt(0);
+        container->removeItem(item);
+        delete item;
+    }
+    // New notifier widget
+    container->addWidget(newNotifierWidget);
+    // Widgets for notifiers
     NotifierConfig *config = NotifierConfig::get();
     for (Notifier *n : config->getNotifiers()) {
         NotifierViewWidget *widget = new NotifierViewWidget(n);
         container->addWidget(widget);
     }
+
 }
 
 }

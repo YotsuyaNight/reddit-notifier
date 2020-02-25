@@ -37,12 +37,15 @@ class Watcher : public QObject
 public:
     Watcher();
 
-private slots:
-    void query();
-    void reachBarrier();
+public slots:
+    void notifiersChanged();
 
 signals:
     void foundMatchingPosts(QSharedPointer<QVector<Post>> list);
+
+private slots:
+    void query();
+    void reachBarrier();
 
 private:
     QVector<Notifier*> notifiers;
