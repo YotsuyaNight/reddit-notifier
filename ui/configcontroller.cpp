@@ -19,6 +19,7 @@
 
 #include "configcontroller.h"
 #include "notifierconfig.h"
+#include <QLabel>
 
 namespace rn {
 
@@ -31,9 +32,22 @@ ConfigController::ConfigController(QVBoxLayout *container)
     connect(config, &NotifierConfig::notifierRemoved, this, &ConfigController::notifierRemoved);
 
     // Prepare new Notifier widget
+    QLabel *newNotifierLabel = new QLabel();
+    QLabel *existingNotifiersLabel = new QLabel();
+    QFont font;
+    font.setPointSize(18);
+    newNotifierLabel->setFont(font);
+    existingNotifiersLabel->setFont(font);
+    newNotifierLabel->setText("Add new notifier:");
+    existingNotifiersLabel->setText("Active notifiers:");
+
     newNotifier = new Notifier("", "new");
     newNotifierWidget = new NotifierViewWidget(newNotifier);
+
+    container->addWidget(newNotifierLabel);
     container->addWidget(newNotifierWidget);
+    container->addWidget(existingNotifiersLabel);
+
     connect(newNotifier, &Notifier::updated, this, &ConfigController::newNotifierCreated);
 
     // Add all preexisting notifiers

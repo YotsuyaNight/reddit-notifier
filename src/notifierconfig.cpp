@@ -39,9 +39,7 @@ NotifierConfig::NotifierConfig()
 
 void NotifierConfig::notifierUpdated()
 {
-    blockSignals(true);
     save();
-    blockSignals(false);
 }
 
 void NotifierConfig::addNotifier(Notifier *notifier)
